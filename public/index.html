@@ -5,43 +5,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>DATAWAREHOSE BACKEND</title>
 </head>
 
 <body>
-  <form>
-    <input type="email" id="email">
-    <input type="password" id="password">
-    <button type="submit" id="send">Ingresar</button>
-    <button type="reset">clean</button>
-  </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    const email = document.getElementById('email')
-    const password = document.getElementById('password')
-    const send = document.getElementById('send')
-
-    send.addEventListener('click', (e) => {
-      e.preventDefault()
-      const config = {
-        headers: { 'Content-Type': 'application/json' }
-      };
-      const data = {
-        email: email.value,
-        password: password.value
-      }
-      axios.post('http://localhost:3005/v1/users/login', data, config)
-        .then(response => {
-          localStorage.setItem('token', `Bearer ${response.data.token}`)
-          localStorage.setItem('role', `${response.data.role}`)
-          location.href = "http://localhost:3005/dashboard.html"
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    })
-  </script>
 </body>
 
 </html>
