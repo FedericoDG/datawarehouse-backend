@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./assets/styles/main.css">
+  <title>DataWarehouse</title>
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) {
+      location.href = "http://localhost:3005/";
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1 class="logo">DATAWAREHOUSE</h1>
+    <nav>
+      <ul>
+        <li><a href="#">contactos</a></li>
+        <li><a href="#">usuarios</a></li>
+        <li><a href="#">compañías</a></li>
+        <li><a href="#">ciudad/región</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1 class="title">contactos</h1>
+    <div class="container" id="container"></div>
+  </main>
+  <template id="templateContacts">
+    <div class="contacts">
+      <div class="contacts__search">
+        <input type="search" id="" placeholder="buscar...">
+        <button>agregar contacto</button>
+      </div>
+      <div class="contacts__delete">
+        <button>eliminar seleccionados</button>
+      </div>
+      <ul class="contacts__head">
+        <li><input type="checkbox" name="" id=""></li>
+        <li>contacto <i class="fal fa-sort-alt" id="sort-lastname" onclick="sortName('lastname')"></i></li>
+        <li>país/región <i class="fal fa-sort-alt" id="sort-country" onclick="sortName('country_name')"></i></li>
+        <li>compañía <i class="fal fa-sort-alt" id="sort-company" onclick="sortName('company_name')"></i></li>
+        <li>canal preferido</li>
+        <li>cargo <i class="fal fa-sort-alt" id="sort-position" onclick="sortName('position')"></i></li>
+        <li>interés <i class="fal fa-sort-alt" id="sort-interest" onclick="sortName('interest')"></i></li>
+        <li>acciones</li>
+      </ul>
+      <div class="contacts__container" id="contactsContainer">
+
+        <!--         <div class="contacts__row">
+          <div class="checkbox">
+            <input type="checkbox" name="" id="">
+          </div>
+          <div class="name">
+            <div>
+              <img src="./assets/images/contact.png" alt="">
+            </div>
+            <div>
+              <p>Federico David González</p>
+              <p>fede@nazgul.com.ar</p>
+            </div>
+          </div>
+          <div class="country">
+            <p>Argentina</p>
+            <p>Sudamérica</p>
+          </div>
+          <div class="company">
+            <p>Constructora del Orto S.A.</p>
+          </div>
+          <div class="channel">
+            <span>facebook</span>
+            <span>instagram</span>
+            <span>twitter</span>
+          </div>
+          <div class="ocupation">
+            <p>Frontend Developer</p>
+          </div>
+          <div class="interest">
+            <span>100% </span><progress max="100" value="100"></progress>
+          </div>
+          <div class="actions">
+            <button class="actions-edit"><i class="fas fa-pencil-alt"></i></button>
+            <button class="actions-delete"><i class="far fa-trash-alt"></i></button>
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+  </template>
+  <template id="templateNewContact">
+    <div class="newContact">
+      <div class="newContact__modal">
+        <div class="newContact__modal-title">
+          <h1>nuevo contacto</h1>
+          <i class="fas fa-times fa-lg" id="close"></i>
+        </div>
+        <div class="newContact__modal-head">
+          <img src="./assets/images/contact.png" alt="">
+          <div>
+            <label for="name-edit">nombre <span>*</span></label>
+            <input type="text" id="name-edit" name="name" required>
+          </div>
+          <div>
+            <label for="lastname-edit">apellido <span>*</span></label>
+            <input type="text" id="lastname-edit" name="lastname" required>
+          </div>
+          <div>
+            <label for="possition-edit">cargo <span>*</span></label>
+            <input type="text" id="possition-edit" name="possition" required>
+          </div>
+          <div>
+            <label for="email-edit">email <span>*</span></label>
+            <input type="text" id="email-edit" name="email" required>
+          </div>
+          <div>
+            <label for="company-edit">compañia <span>*</span></label>
+            <select id="company-edit" required>
+            </select>
+          </div>
+        </div>
+        <div class="newContac__modal-fieldsA">
+          <div>
+            <label for="region-edit">región</label>
+            <select name="region" id="region-edit">
+              <option disabled selected value>seleccione una opción</option>
+            </select>
+          </div>
+          <div>
+            <label for="country-edit">país</label>
+            <select name="country" id="country-edit">
+              <option disabled selected value>seleccione una opción</option>
+            </select>
+          </div>
+          <div>
+            <label for="city-edit">ciudad</label>
+            <select name="city" id="city-edit">
+              <option disabled selected value>seleccione una opción</option>
+            </select>
+          </div>
+          <div>
+            <label for="adress-edit">dirección</label>
+            <input type="text" id="adress-edit">
+            </input>
+          </div>
+          <div>
+            <label for="interest-edit">interés</label>
+            <input type="range" min="0" max="100" step="25" id="interest">
+          </div>
+        </div>
+        <div class="newContac__modal-fieldsB">
+          <div>
+            <label for="telephone-edit">teléfono</label>
+            <input type="text" id="telephone-edit">
+            <select name="preference-telephone" id="preference-telephone">
+            </select>
+          </div>
+          <div>
+            <label for="facebook-edit">facebook</label>
+            <input type="text" id="facebook-edit">
+            <select name="preference-facebook" id="preference-facebook">
+            </select>
+          </div>
+          <div>
+            <label for="twitter-edit">twitter</label>
+            <input type="text" id="twitter-edit">
+            <select name="preference-twitter" id="preference-twitter">
+            </select>
+          </div>
+          <div>
+            <label for="instagram-edit">instagram</label>
+            <input type="text" id="instagram-edit">
+            <select name="preference-instagram" id="preference-instagram">
+            </select>
+          </div>
+          <div>
+            <label for="linkedin-edit">linkedin</label>
+            <input type="text" id="linkedin-edit">
+            <select name="preference-linkedin" id="preference-linkedin">
+            </select>
+          </div>
+        </div>
+        <div class="newContac__modal-save">
+          <button id="cancel">cancelar</button>
+          <button id="save">guardar</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="templateCompanies">
+    <div class="companies">
+      <div class="companies__addButton">
+        <button>agregar compañia</button>
+      </div>
+      <ul class="companies__head">
+        <li>compañía <i class="fal fa-sort-alt"></i></li>
+        <li>email <i class="fal fa-sort-alt"></i></li>
+        <li>teléfono <i class="fal fa-sort-alt"></i></li>
+        <li>dirección <i class="fal fa-sort-alt"></i></li>
+        <li>ciudad <i class="fal fa-sort-alt"></i></li>
+        <li>acciones</li>
+      </ul>
+      <div class="companies__container">
+
+        <div class="companies__row">
+          <div class="company">
+            <p>Constructora del Orto S.A.</p>
+          </div>
+          <div class="email">
+            <p>delorto@mail.com</p>
+          </div>
+          <div class="phone">
+            <p>5493516114150</p>
+          </div>
+          <div class="address">
+            <p>Pasaje Del Orto 69</p>
+          </div>
+          <div class="city">
+            <p>Córdoba</p>
+          </div>
+          <div class="actions">
+            <button class="actions-edit"><i class="fas fa-pencil-alt"></i></button>
+            <button class="actions-delete"><i class="far fa-trash-alt"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </template>
+  <template id="templateNewCompany">
+    <div class="newCompany">
+      <div class="newCompany__modal">
+        <div class="newCompany__modal-title">
+          <h1>agregar compañía</h1>
+          <i class="fas fa-times fa-lg"></i>
+        </div>
+        <div class="newCompany__modal-content">
+          <div>
+            <label for="edit-company-name">copañía</label>
+            <input type="text" id="edit-company-name">
+          </div>
+          <div>
+            <label for="edit-company-email">email</label>
+            <input type="text" id="edit-comapny-email">
+          </div>
+          <div>
+            <label for="edit-company-telephone">teléfono</label>
+            <input type="text" id="edit-company-telephone">
+          </div>
+          <div>
+            <label for="edit-company-address">dirección</label>
+            <input type="text" id="edit-company-address">
+          </div>
+          <div>
+            <label for="edit-company-city">ciudad</label>
+            <select name="company-city" id="edit-company-city">
+              <option disabled selected value>seleccione una opción</option>
+              <option value="Córdoba">Córdoba</option>
+            </select>
+          </div>
+        </div>
+        <div class="newCompany__modal-save">
+          <button>cancelar</button>
+          <button>guardar</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="templateRegion">
+    <div class="region">
+      <div class="region__head">
+        <p>regiones</p>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="region__container">
+        <div class="item">
+          <div>
+            <span>Sudamérica</span>
+            <div class="i">
+              <i class="fas fa-pencil-alt"></i>
+              <i class="far fa-trash-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="region__head">
+        <p>paises</p>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="region__container">
+        <div class="item">
+          <div>
+            <span>Argentina</span>
+            <div class="i">
+              <i class="fas fa-pencil-alt"></i>
+              <i class="far fa-trash-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="region__head">
+        <p>ciudades</p>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="region__container">
+        <div class="item">
+          <div>
+            <span>Ciudad de México</span>
+            <div class="i">
+              <i class="fas fa-pencil-alt"></i>
+              <i class="far fa-trash-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </template>
+  <template id="templateNewRegion">
+    <div class="newRegion">
+      <div class="newRegion__modal">
+        <div class="newRegion__modal-title">
+          <h1>agregar region</h1>
+          <i class="fas fa-times fa-lg"></i>
+        </div>
+        <div class="newRegion__modal-content">
+          <div>
+            <label for="edit-region-name">región</label>
+            <input type="text" id="edit-region-name">
+          </div>
+        </div>
+        <div class="newRegion__modal-save">
+          <button>cancelar</button>
+          <button>guardar</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="templateNewCountry">
+    <div class="newCountry">
+      <div class="newCountry__modal">
+        <div class="newCountry__modal-title">
+          <h1>agregar país</h1>
+          <i class="fas fa-times fa-lg"></i>
+        </div>
+        <div class="newCountry__modal-content">
+          <div>
+            <label for="edit-region-name">región</label>
+            <select name="edit-region-name" id="">
+              <option disabled selected value>seleccione una opción</option>
+              <option value="Sudamérica">Sudamérica</option>
+            </select>
+          </div>
+          <div>
+            <label for="edit-country-name">país</label>
+            <input type="text" id="edit-country-name">
+          </div>
+        </div>
+        <div class="newCountry__modal-save">
+          <button>cancelar</button>
+          <button>guardar</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  <template id="templateNewCity">
+    <div class="newCity">
+      <div class="newCity__modal">
+        <div class="newCity__modal-title">
+          <h1>agregar ciudad</h1>
+          <i class="fas fa-times fa-lg"></i>
+        </div>
+        <div class="newCity__modal-content">
+          <div>
+            <label for="edit-country-name">país</label>
+            <select name="edit-country-name" id="">
+              <option disabled selected value>seleccione una opción</option>
+              <option value="Sudamérica">Argentina</option>
+            </select>
+          </div>
+          <div>
+            <label for="edit-city-name">ciudad</label>
+            <input type="text" id="edit-city-name">
+          </div>
+        </div>
+        <div class="newCity__modal-save">
+          <button>cancelar</button>
+          <button>guardar</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <footer>
+    <p>made with love by <a href="mailto:fede@nazgul.com.ar">fede@nazgul.com.ar</a></p>
+  </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./index.js"></script>
+
+</html>
