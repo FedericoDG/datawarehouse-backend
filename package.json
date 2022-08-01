@@ -1,14 +1,19 @@
 {
-  "name": "REST_API_SHELL",
+  "name": "datawatehose-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend for DataWatehose app",
+  "main": "app.js",
   "start": "node app.js",
   "scripts": {
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "node",
+    "express",
+    "mysql"
+  ],
+  "author": "Federico González",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
