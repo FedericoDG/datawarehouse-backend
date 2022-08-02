@@ -1,11 +1,24 @@
-const { createToken, hashPassword, saveUserOnDB, getAllUsers, getUserById, updateUserOnDB, deleteUserOnDB} = require("../helpers/users.helpers");
+const {
+  createToken,
+  hashPassword,
+  saveUserOnDB,
+  getAllUsers,
+  getUserById,
+  updateUserOnDB,
+  deleteUserOnDB
+} = require('../helpers/users.helpers');
 
 const usersLogin = (req, res) => {
   const token = createToken(req.user);
   res.json({
     response: true,
     message: 'Usuario autenticado.',
-    role: req.user.role,
+    user: {
+      name: req.user.name,
+      lastname: req.user.lastname,
+      email: req.user.email,
+      role: req.user.role
+    },
     token
   });
 };
@@ -102,5 +115,5 @@ module.exports = {
   usersGetAll,
   usersGet,
   usersUpdate,
-  usersDelete,
+  usersDelete
 };

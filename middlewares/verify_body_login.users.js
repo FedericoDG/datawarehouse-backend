@@ -30,6 +30,8 @@ const verifyBodyLogin = (req, res, next) => {
         }
         req.user = {
           id_user: response[0].id_user,
+          name: response[0].name,
+          lastname: response[0].lastname,
           email: response[0].email,
           role: response[0].role
         };
