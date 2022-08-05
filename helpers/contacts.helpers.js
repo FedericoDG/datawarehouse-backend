@@ -33,7 +33,6 @@ const getAllContacts = () => {
       if (error) {
         reject(error);
       } else {
-        console.log(contacts.id_city);
         resolve(contacts);
       }
     });
@@ -81,7 +80,7 @@ const getOneContact = (id) => {
 
 // GUARDAR CONTACTO EN LA BASE DE DATOS
 const saveContactOnDB = (contact) => {
-  const sqlQuery = "INSERT INTO contacts SET ?";
+  const sqlQuery = 'INSERT INTO contacts SET ?';
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, [contact], (error, contact) => {
       if (error) {
@@ -95,7 +94,7 @@ const saveContactOnDB = (contact) => {
 
 // ACTUALIZAR CONTACTO EN LA BASE DE DATOS
 const updateContactOnDB = (contact, id) => {
-  const sqlQuery = "UPDATE contacts SET ? WHERE id_contact = ?";
+  const sqlQuery = 'UPDATE contacts SET ? WHERE id_contact = ?';
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, [contact, id], (error, contact) => {
       if (error) {
@@ -109,7 +108,7 @@ const updateContactOnDB = (contact, id) => {
 
 // ELIMINAR CONTACTO DE LA BASE DE DATOS
 const deleteContactoOnDB = (id) => {
-  const sqlQuery = "DELETE FROM contacts WHERE id_contact = ?";
+  const sqlQuery = 'DELETE FROM contacts WHERE id_contact = ?';
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, [id], (error, user) => {
       if (error) {

@@ -35,7 +35,7 @@ class Server {
     this.app.use(this.preferencesPath, require('../routes/preferences.routes'));
   }
   connection() {
-    dataBase.connect(error => {
+    dataBase.connect((error) => {
       if (error) {
         throw new Error(error);
       }

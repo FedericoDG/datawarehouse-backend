@@ -1,12 +1,17 @@
-const { getAllContacts, getOneContact, saveContactOnDB, updateContactOnDB, deleteContactoOnDB } = require("../helpers/contacts.helpers");
+const { filterFunction } = require('../helpers/filter.helpers');
+const { getAllContacts, getOneContact, saveContactOnDB, updateContactOnDB, deleteContactoOnDB } = require('../helpers/contacts.helpers');
 
-const contactsGetAll = async (_, res) => {
+const contactsGetAll = async (req, res) => {
   try {
-    const contacts = await getAllContacts();
+    let contacts = await getAllContacts();
+    if (req.query.filter) {
+      contacts = filterFunction(contacts, req.query.filter);
+    }
+    const contactsMaped = contacts.map((el) => ({ ...el, id: el.id_contact }));
     res.json({
       response: true,
       message: 'Lista de contactos.',
-      contacts
+      contacts: contactsMaped
     });
   } catch (error) {
     res.status(500).json({
@@ -16,6 +21,7 @@ const contactsGetAll = async (_, res) => {
     });
   }
 };
+
 const contactsGet = async (req, res) => {
   try {
     const contact = await getOneContact(req.params.id);
@@ -39,7 +45,7 @@ const contactsCreate = async (req, res) => {
     res.json({
       response: true,
       message: 'Contacto creado.',
-      contact: {id_contact: contact.insertId, ...req.contact}
+      contact: { id_contact: contact.insertId, ...req.contact }
     });
   } catch (error) {
     res.status(500).json({
@@ -56,7 +62,7 @@ const contactsUpdate = async (req, res) => {
     res.json({
       response: true,
       message: 'Contacto actualizado.',
-      contact: {id_contact: req.params.id, ...req.contact}
+      contact: { id_contact: req.params.id, ...req.contact }
     });
   } catch (error) {
     res.status(500).json({
@@ -83,11 +89,10 @@ const contactsDelete = async (req, res) => {
   }
 };
 
-
 module.exports = {
   contactsGetAll,
   contactsGet,
   contactsCreate,
   contactsUpdate,
   contactsDelete
-}
+};
