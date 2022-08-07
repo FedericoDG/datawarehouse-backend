@@ -1,12 +1,13 @@
-const { getAllCompanies, getCompany, saveCompanyOnDB, updateCompanyOnDB, deleteCompanyOnDB } = require("../helpers/companies.helpers");
+const { getAllCompanies, getCompany, saveCompanyOnDB, updateCompanyOnDB, deleteCompanyOnDB } = require('../helpers/companies.helpers');
 
 const companiesGetAll = async (_, res) => {
   try {
     const companies = await getAllCompanies();
+    const companyMapped = companies.map((el) => ({ ...el, id: el.id_company }));
     res.json({
       response: true,
       message: 'Lista de compañías.',
-      companies
+      companies: companyMapped
     });
   } catch (error) {
     res.status(500).json({

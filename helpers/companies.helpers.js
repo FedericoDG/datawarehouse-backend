@@ -2,7 +2,7 @@ const dataBase = require('../database/connection');
 
 // OBTENER TODOS LAS COMPAÑIAS DE LA BASE DE DATOS
 const getAllCompanies = () => {
-  const sqlQuery = `SELECT id_company, name, email, phone, address, (SELECT name FROM cities WHERE id_city = companies.id_city) AS city FROM companies`;
+  const sqlQuery = `SELECT id_company, name, email, phone, address, id_city, (SELECT name FROM cities WHERE id_city = companies.id_city) AS city FROM companies`;
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, (error, companies) => {
       if (error) {
@@ -30,7 +30,7 @@ const getCompany = (id) => {
 
 // GUARDAR COMPAÑIA EN LA BASE DE DATOS
 const saveCompanyOnDB = (company) => {
-  const sqlQuery = "INSERT INTO companies SET ?";
+  const sqlQuery = 'INSERT INTO companies SET ?';
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, [company], (error, company) => {
       if (error) {
@@ -44,7 +44,7 @@ const saveCompanyOnDB = (company) => {
 
 // ACTUALIZAR COMPAÑIA EN LA BASE DE DATOS
 const updateCompanyOnDB = (company, id) => {
-  const sqlQuery = "UPDATE companies SET ? WHERE id_company = ?";
+  const sqlQuery = 'UPDATE companies SET ? WHERE id_company = ?';
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, [company, id], (error, company) => {
       if (error) {
@@ -58,7 +58,7 @@ const updateCompanyOnDB = (company, id) => {
 
 // ELIMINAR COMPAÑIA DE LA BASE DE DATOS
 const deleteCompanyOnDB = (id) => {
-  const sqlQuery = "DELETE FROM companies WHERE id_company = ?";
+  const sqlQuery = 'DELETE FROM companies WHERE id_company = ?';
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, [id], (error, company) => {
       if (error) {

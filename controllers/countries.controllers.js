@@ -1,12 +1,20 @@
-const { getAllCountries, getCountry, saveCountryOnDB, updateCountryOnDB, deleteCountryOnDBB, deleteCountryOnDB } = require("../helpers/countries.helpers");
+const {
+  getAllCountries,
+  getCountry,
+  saveCountryOnDB,
+  updateCountryOnDB,
+  deleteCountryOnDBB,
+  deleteCountryOnDB
+} = require('../helpers/countries.helpers');
 
 const countriesGetAll = async (_, res) => {
   try {
     const countries = await getAllCountries();
+    const countriesMapped = countries.map((el) => ({ ...el, id: el.id_country }));
     res.json({
       response: true,
       message: 'Lista de países.',
-      countries
+      countries: countriesMapped
     });
   } catch (error) {
     res.status(500).json({

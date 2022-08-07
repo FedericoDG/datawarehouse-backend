@@ -1,13 +1,13 @@
-
-const { getAllRegions, getRegion, saveRegionOnDB, updateRegionOnDB, deleteRegionOnDB } = require("../helpers/regions.helpers");
+const { getAllRegions, getRegion, saveRegionOnDB, updateRegionOnDB, deleteRegionOnDB } = require('../helpers/regions.helpers');
 
 const regionsGetAll = async (_, res) => {
   try {
     const regions = await getAllRegions();
+    const regionsMapped = regions.map((el) => ({ ...el, id: el.id_region }));
     res.json({
       response: true,
       message: 'Lista de regiones.',
-      regions
+      regions: regionsMapped
     });
   } catch (error) {
     res.status(500).json({

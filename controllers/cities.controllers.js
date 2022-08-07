@@ -1,12 +1,13 @@
-const { getAllCities,getCity,saveCityOnDB,updateCityOnDB,deleteCityOnDB} = require("../helpers/cities.helpers");
+const { getAllCities, getCity, saveCityOnDB, updateCityOnDB, deleteCityOnDB } = require('../helpers/cities.helpers');
 
 const citiesGetAll = async (_, res) => {
   try {
     const cities = await getAllCities();
+    const citiesMapped = cities.map((el) => ({ ...el, id: el.id_city }));
     res.json({
       response: true,
       message: 'Lista de ciudades.',
-      cities
+      cities: citiesMapped
     });
   } catch (error) {
     res.status(500).json({
@@ -41,7 +42,8 @@ const citiesCreate = async (req, res) => {
       response: true,
       message: 'Ciudad creada.',
       country: { id_city: city.insertId, ...req.city }
-    });city
+    });
+    city;
   } catch (error) {
     res.status(500).json({
       response: false,
