@@ -2,7 +2,10 @@ const dataBase = require('../database/connection');
 
 // OBTENER TODOS LAS COMPAÑIAS DE LA BASE DE DATOS
 const getAllCompanies = () => {
-  const sqlQuery = `SELECT id_company, name, email, phone, address, id_city, (SELECT name FROM cities WHERE id_city = companies.id_city) AS city FROM companies`;
+  const sqlQuery = `SELECT id_company, name, email, phone, address, id_city,
+  (SELECT name FROM cities WHERE id_city = companies.id_city) AS city,
+  (SELECT name FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = companies.id_city)) AS country
+  FROM companies`;
   return new Promise((resolve, reject) => {
     dataBase.query(sqlQuery, (error, companies) => {
       if (error) {
