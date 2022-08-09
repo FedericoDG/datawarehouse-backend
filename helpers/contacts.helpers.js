@@ -22,9 +22,11 @@ const getAllContacts = () => {
   id_company,
   (SELECT name FROM companies WHERE id_company = contacts.id_company)AS company_name,
   id_city,
-  (SELECT name FROM cities WHERE id_city = contacts.id_company)AS city_name,
+  (SELECT name FROM cities WHERE id_city = contacts.id_city)AS city_name,
+  (SELECT name FROM cities WHERE id_city = contacts.id_company)AS company_city_name,
   (SELECT id_country FROM cities WHERE id_city = contacts.id_city)AS id_country,
   (SELECT name FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_city)) AS country_name,
+  (SELECT name FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_company)) AS company_country_name,
   (SELECT id_region FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_city)) AS id_region,
   (SELECT name FROM regions WHERE id_region = (SELECT id_region FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_city))) AS region_name
   FROM contacts`;
@@ -61,9 +63,11 @@ const getOneContact = (id) => {
   id_company,
   (SELECT name FROM companies WHERE id_company = contacts.id_company)AS company_name,
   id_city,
-  (SELECT name FROM cities WHERE id_city = contacts.id_company)AS city_name,
+  (SELECT name FROM cities WHERE id_city = contacts.id_city)AS city_name,
+  (SELECT name FROM cities WHERE id_city = contacts.id_company)AS company_city_name,
   (SELECT id_country FROM cities WHERE id_city = contacts.id_city)AS id_country,
   (SELECT name FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_city)) AS country_name,
+  (SELECT name FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_company)) AS company_country_name,
   (SELECT id_region FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_city)) AS id_region,
   (SELECT name FROM regions WHERE id_region = (SELECT id_region FROM countries WHERE id_country = (SELECT id_country FROM cities WHERE id_city = contacts.id_city))) AS region_name
   FROM contacts WHERE id_contact = ?`;

@@ -2,24 +2,16 @@ const { filterFunction } = require('../helpers/filter.helpers');
 const { getAllContacts, getOneContact, saveContactOnDB, updateContactOnDB, deleteContactoOnDB } = require('../helpers/contacts.helpers');
 
 const contactsGetAll = async (req, res) => {
-  try {
-    let contacts = await getAllContacts();
-    if (req.query.filter) {
-      contacts = filterFunction(contacts, req.query.filter);
-    }
-    const contactsMaped = contacts.map((el) => ({ ...el, id: el.id_contact }));
-    res.json({
-      response: true,
-      message: 'Lista de contactos.',
-      contacts: contactsMaped
-    });
-  } catch (error) {
-    res.status(500).json({
-      response: false,
-      message: 'Ha ocurrido un error.',
-      error
-    });
+  let contacts = await getAllContacts();
+  if (req.query.filter) {
+    contacts = filterFunction(contacts, req.query.filter);
   }
+  const contactsMaped = contacts.map((el) => ({ ...el, id: el.id_contact }));
+  res.json({
+    response: true,
+    message: 'Lista de contactos.',
+    contacts: contactsMaped
+  });
 };
 
 const contactsGet = async (req, res) => {

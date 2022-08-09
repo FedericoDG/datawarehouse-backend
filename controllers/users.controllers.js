@@ -5,7 +5,8 @@ const {
   getAllUsers,
   getUserById,
   updateUserOnDB,
-  deleteUserOnDB
+  deleteUserOnDB,
+  updateUserWithOutPasswordOnDB
 } = require('../helpers/users.helpers');
 
 const usersLogin = (req, res) => {
@@ -44,10 +45,17 @@ const usersRegister = async (req, res) => {
 const usersGetAll = async (req, res) => {
   try {
     const users = await getAllUsers();
+    const usersMapped = users.map((el) => {
+      const { password, ...rest } = el;
+      return {
+        ...rest,
+        id: el.id_user
+      };
+    });
     res.json({
       response: true,
       message: 'Lista de usuarios.',
-      users
+      users: usersMapped
     });
   } catch (error) {
     res.status(500).json({
@@ -76,7 +84,7 @@ const usersGet = async (req, res) => {
 };
 
 const usersUpdate = async (req, res) => {
-  try {
+  if (req.user?.password) {
     const hashedPassword = hashPassword(req.user.password);
     await updateUserOnDB({ ...req.user, password: hashedPassword }, req.params.id);
     res.json({
@@ -84,11 +92,14 @@ const usersUpdate = async (req, res) => {
       message: 'Usuario actualizado.',
       user: { id_user: req.params.id, ...req.user }
     });
-  } catch (error) {
-    res.status(500).json({
-      response: false,
-      message: 'Ha ocurrido un error.',
-      error
+  } else {
+    console.log('NO PASSWORD: '.req?.user?.password);
+    const { password, ...user } = req.user;
+    await updateUserWithOutPasswordOnDB(user, req.params.id);
+    res.json({
+      response: true,
+      message: 'Usuario actualizado.',
+      user: { id_user: req.params.id, ...req.user }
     });
   }
 };
