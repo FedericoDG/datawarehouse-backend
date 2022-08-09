@@ -1,7 +1,8 @@
 // MIDDLEWARE PARA COMPROBAR EL BODY AL CREAR UNA NUEVA COMPAÑIA (se utilizan algunas expresiones regulares)
 const dataBase = require('../database/connection');
 
-const checkEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // Formato de email válido
+const checkEmail =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // Formato de email válido
 
 const verifyBodyCreateCompany = async (req, res, next) => {
   let { name, email, phone, address, id_city } = req.body;
@@ -32,7 +33,7 @@ const verifyBodyCreateCompany = async (req, res, next) => {
     if (resp.length > 0) {
       return res.status(400).json({
         response: false,
-        message: 'Ya existe un usuario con ese email.'
+        message: 'Ya existe una compañía con ese email.'
       });
     }
     req.company = {
