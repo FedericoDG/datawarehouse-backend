@@ -1,4 +1,6 @@
 // MIDDLEWARE PARA COMPROBAR LOS CAMPOS DEL BODY AL HACER UNA ACTUALIZACION DE USUARIO (se utilizan algunas expresiones regulares)
+const dataBase = require('../database/connection');
+
 const checkPassword = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[#?!@$%^&*-]).{8,50}/; // Al menos una letra mayúscula, una minúscula, un número y un caracter especial. Longitud entre 8 y 50 caracteres
 const checkName = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]{3,50}$/; // Letras mayúsculas y minúsculas, y espacios. Longitud entre 4 y 50 caracteres
 const checkEmail =
@@ -46,6 +48,24 @@ const verifyBodyUpdate = async (req, res, next) => {
     return res.status(400).json({
       response: false,
       message: 'El campo role debe ser USER o ADMIN.'
+    });
+  }
+  const resp = await new Promise((resolve, reject) => {
+    const sqlQuery = 'SELECT * FROM users WHERE email = ?';
+    dataBase.query(sqlQuery, [email], (error, data) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+  const idParams = Number(req.params.id);
+  const idDatabase = JSON.parse(JSON.stringify(resp))[0].id_user;
+  if (idParams !== idDatabase) {
+    return res.status(400).json({
+      response: false,
+      message: 'Ya existe un usuario con ese email.'
     });
   }
   req.user = {

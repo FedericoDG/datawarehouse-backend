@@ -93,7 +93,6 @@ const usersUpdate = async (req, res) => {
       user: { id_user: req.params.id, ...req.user }
     });
   } else {
-    console.log('NO PASSWORD: '.req?.user?.password);
     const { password, ...user } = req.user;
     await updateUserWithOutPasswordOnDB(user, req.params.id);
     res.json({
