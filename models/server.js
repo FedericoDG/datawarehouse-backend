@@ -7,6 +7,7 @@ const dataBase = require('../database/connection');
 class Server {
   constructor() {
     this.app = express();
+    this.PORT = process.env.EXPRESS_PORT || 3000;
     this.usersPath = '/v1/users';
     this.contactsPath = '/v1/contacts';
     this.companiesPath = '/v1/companies';
@@ -43,9 +44,9 @@ class Server {
     });
   }
   listen() {
-    this.app.listen(process.env.EXPRESS_PORT, () => {
+    this.app.listen(this.PORT, () => {
       console.clear();
-      console.log('API live on port', process.env.EXPRESS_PORT);
+      console.log('API live on port', this.PORT);
     });
   }
 }
