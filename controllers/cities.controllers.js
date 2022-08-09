@@ -3,7 +3,7 @@ const { getAllCities, getCity, saveCityOnDB, updateCityOnDB, deleteCityOnDB } = 
 const citiesGetAll = async (_, res) => {
   try {
     const cities = await getAllCities();
-    const citiesMapped = cities.map((el) => ({ ...el, id: el.id_city }));
+    const citiesMapped = cities.map((el) => ({ ...el, id: el.id_city, parent: el.name_country }));
     res.json({
       response: true,
       message: 'Lista de ciudades.',

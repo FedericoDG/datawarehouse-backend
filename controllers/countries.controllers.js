@@ -10,7 +10,7 @@ const {
 const countriesGetAll = async (_, res) => {
   try {
     const countries = await getAllCountries();
-    const countriesMapped = countries.map((el) => ({ ...el, id: el.id_country }));
+    const countriesMapped = countries.map((el) => ({ ...el, id: el.id_country, parent: el.name_region }));
     res.json({
       response: true,
       message: 'Lista de países.',

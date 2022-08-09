@@ -3,7 +3,7 @@ const dataBase = require('../database/connection');
 
 const verifyBodyCreateCountry = async (req, res, next) => {
   let { name, id_region } = req.body;
-  name = name.toLowerCase();
+  const nameLowerCase = name.toLowerCase();
   if (!name || !id_region) {
     return res.status(400).json({
       response: false,
@@ -12,7 +12,7 @@ const verifyBodyCreateCountry = async (req, res, next) => {
   }
   const resp = await new Promise((resolve, reject) => {
     const sqlQuery = 'SELECT * FROM countries WHERE name = ?';
-    dataBase.query(sqlQuery, [name], (error, data) => {
+    dataBase.query(sqlQuery, [nameLowerCase], (error, data) => {
       if (error) {
         reject(error);
       } else {
