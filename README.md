@@ -20,6 +20,12 @@ REST API desarrollada en Node.js para un sistema que permite el manejo de contac
   git clone https://github.com/FedericoDG/datawarehouse-backend.git
 ```
 
+- Acceder a la carpeta del proyecto:
+
+```bash
+  cd datawarehouse-backend
+```
+
 - Instalar las dependencias del proyecto:
 
 ```bash
