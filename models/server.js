@@ -14,7 +14,7 @@ class Server {
     this.regionsPath = '/v1/regions';
     this.countriesPath = '/v1/countries';
     this.citiesPath = '/v1/cities';
-    this.preferencesPath = '/v1/preferences';
+    this.seedPath = '/v1/seed';
 
     this.middlewares();
     this.routes();
@@ -33,7 +33,7 @@ class Server {
     this.app.use(this.regionsPath, require('../routes/regions.routes'));
     this.app.use(this.countriesPath, require('../routes/countries.routes'));
     this.app.use(this.citiesPath, require('../routes/cities.routes'));
-    this.app.use(this.preferencesPath, require('../routes/preferences.routes'));
+    this.app.use(this.seedPath, require('../routes/seed.routes'));
   }
   connection() {
     dataBase.connect((error) => {
