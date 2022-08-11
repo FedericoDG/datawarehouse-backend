@@ -43,7 +43,7 @@ REST API desarrollada en Node.js y Express para un sistema que permite el manejo
 - Regenerar la base de datos haciendo un petición GET, mediante el navegador o Postman a la siguiente URL:
 
 ```bash
-  http://localhost:3005/seed
+  http://localhost:3005/v1/seed
 ```
 
 - **CONTINUAR CON LA INSTALACIÓN DEL [FRONTEND](https://github.com/FedericoDG/datawarehouse-frontend)**
