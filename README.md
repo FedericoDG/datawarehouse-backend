@@ -2,7 +2,7 @@
 
 # Data Warehouse - Backend
 
-REST API desarrollada en Node.js para un sistema que permite el manejo de contactos.
+REST API desarrollada en Node.js y Express para un sistema que permite el manejo de contactos.
 
 ## Autor
 
@@ -40,7 +40,7 @@ REST API desarrollada en Node.js para un sistema que permite el manejo de contac
   npm start
 ```
 
-- Regenrar la base de datos haciendo un petición GET, mediante el navegador o Postman a la siguiente URL:
+- Regenerar la base de datos haciendo un petición GET, mediante el navegador o Postman a la siguiente URL:
 
 ```bash
   http://localhost:3005/seed
@@ -301,6 +301,8 @@ REST API desarrollada en Node.js para un sistema que permite el manejo de contac
 | `email`   | `string` | **Required**. Company email   |
 | `address` | `string` | **Required**. Company address |
 | `id_city` | `number` | **Required**. Company city id |
+
+#### Delete a company
 
 ```http
   DELETE /v1/companies/${id}
